@@ -109,7 +109,7 @@ public class ClearInputEditText extends AppCompatEditText {
         if (event.getAction() == MotionEvent.ACTION_UP && drawableEnd != null) {
             int x = (int) event.getX();
             //触摸区域设置为边长为输入框高度的正方形
-            int drawableWidthWithPadding = iconSize > 0 ? iconSize * 2 : getHeight() * 2;
+            int drawableWidthWithPadding = getHeight() * 2;
             if ((leftToRight && (x >= (this.getRight() - (drawableWidthWithPadding)))) ||
                     (!leftToRight && (x <= (this.getLeft() + (drawableWidthWithPadding))))) {
                 showPasswordVisibilityIndicator(false);
