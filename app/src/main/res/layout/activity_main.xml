@@ -29,6 +29,7 @@
         android:paddingRight="8dp"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        app:clear_input_size="24dp"/>
+        app:clear_input_size="24dp"
+        app:clear_input_icon="@drawable/ic_delete"/>
 
 </LinearLayout>

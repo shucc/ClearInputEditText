@@ -7,7 +7,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -22,13 +22,15 @@ import android.view.View;
  */
 public class ClearInputEditText extends AppCompatEditText {
 
-    private static final String TAG = ClearInputEditText.class.getSimpleName();
-
     private Drawable drawableEnd;
 
-    private boolean leftToRight = true;
-
     private int iconSize;
+
+    private int height;
+
+    private int width;
+
+    private boolean leftToRight = true;
 
     @DrawableRes
     private int clearInputDrawableInt = R.drawable.ic_clear_input;
@@ -83,6 +85,13 @@ public class ClearInputEditText extends AppCompatEditText {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        width = getWidth();
+        height = getHeight();
+    }
+
+    @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
         if (focused) {
@@ -109,9 +118,7 @@ public class ClearInputEditText extends AppCompatEditText {
         if (event.getAction() == MotionEvent.ACTION_UP && drawableEnd != null) {
             int x = (int) event.getX();
             //触摸区域设置为边长为输入框高度的正方形
-            int drawableWidthWithPadding = getHeight() * 2;
-            if ((leftToRight && (x >= (this.getRight() - (drawableWidthWithPadding)))) ||
-                    (!leftToRight && (x <= (this.getLeft() + (drawableWidthWithPadding))))) {
+            if ((leftToRight && (x >= (width - height))) || (!leftToRight && (x <= height))) {
                 showPasswordVisibilityIndicator(false);
                 setText("");
                 event.setAction(MotionEvent.ACTION_CANCEL);
@@ -140,7 +147,7 @@ public class ClearInputEditText extends AppCompatEditText {
         Drawable right = existingDrawables[2];
         Drawable bottom = existingDrawables[3];
         if (show) {
-            Drawable original = ContextCompat.getDrawable(getContext(), clearInputDrawableInt);
+            Drawable original = AppCompatResources.getDrawable(getContext(), clearInputDrawableInt);
             if (iconSize > 0) {
                 original.setBounds(0, 0, iconSize, iconSize);
             } else {
